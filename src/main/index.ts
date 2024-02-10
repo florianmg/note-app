@@ -10,6 +10,13 @@ function createWindow(): void {
     height: 670,
     show: false,
     autoHideMenuBar: true,
+    center: true,
+    title: 'Note app',
+    visualEffectState: 'active',
+    trafficLightPosition: process.platform === 'darwin' ? { x: 15, y: 10 } : undefined,
+    vibrancy: 'under-window',
+    titleBarStyle: 'hidden',
+    frame: false,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
