@@ -5,8 +5,8 @@ function App(): JSX.Element {
 
   return (
     <RootLayout>
-      <Sidebar className="p-2 border-4 border-yellow-500">Sidebar</Sidebar>
-      <Content className="p-2 border-4 border-pink-500">Content</Content>
+      <Sidebar>Sidebar</Sidebar>
+      <Content className="border-l bg-zinc-900/50 border-l-white/20">Content</Content>
     </RootLayout>
   )
 }

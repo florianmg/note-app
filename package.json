@@ -24,6 +24,7 @@
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
     "clsx": "^2.1.0",
+    "sqlite3": "^5.1.7",
     "tailwind-merge": "^2.2.1"
   },
   "devDependencies": {
