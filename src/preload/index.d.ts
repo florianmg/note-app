@@ -1,12 +1,12 @@
 import { ElectronAPI } from '@electron-toolkit/preload'
-import { GetNotes } from '@shared/types'
+import { CreateNote, GetNotes } from '@shared/types'
 
 declare global {
   interface Window {
     electron: ElectronAPI
     api: unknown
     context: {
-      createNote: (...args: unknown[]) => Promise<void>
+      createNote: (...args: unknown[]) => CreateNote
       getNotes: () => GetNotes
     }
   }

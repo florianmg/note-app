@@ -5,3 +5,4 @@ export type Note = {
 }
 
 export type GetNotes = Promise<Note[] | null>
+export type CreateNote = Promise<Note>

@@ -1,16 +1,20 @@
+import { RunResult } from 'sqlite3'
 import { db } from './db'
-import { GetNotes } from '@shared/types'
+import { GetNotes, CreateNote } from '@shared/types'
 
-export const createNote = async (title: string, content: string): Promise<void> => {
+export const createNote = async (title: string, content: string): CreateNote => {
   const sql = 'INSERT INTO notes (title, content) VALUES (?, ?)'
 
   return new Promise((resolve, reject) => {
-    db.run(sql, [title, content], (err, row, a) => {
+    db.run(sql, [title, content], function (this: RunResult, err: Error | null) {
       if (err) {
         reject(err)
       } else {
-        console.log('newly created row: ', row, a)
-        resolve()
+        resolve({
+          id: this.lastID,
+          title,
+          content,
+        })
       }
     })
   })
@@ -21,7 +25,6 @@ export const getNotes = (): GetNotes => {
 
   return new Promise((resolve, reject) => {
     db.all(sql, [], (err, rows) => {
-      console.log({ err, rows })
       if (err) {
         reject(err)
       } else {

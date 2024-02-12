@@ -2,6 +2,7 @@ import { RootLayout, Content, Sidebar } from '@/components'
 
 import { useEffect, useMemo, useState } from 'react'
 import { useNotesStore } from './store/notes.store'
+import { cn } from '@/utils/cn'
 
 function App(): JSX.Element {
   const [title, setTitle] = useState('')
@@ -21,10 +22,14 @@ function App(): JSX.Element {
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void =>
     setContent(e.target.value)
 
-  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const onFormSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
-    window.context.createNote?.(title, content)
-    addNote({ id: -1, title, content })
+    if (title.length === 0) return
+    const insertedNote = await window.context.createNote?.(title, content)
+    addNote(insertedNote)
+    setSelectedNote(insertedNote.id)
+    setContent('')
+    setTitle('')
   }
 
   useEffect(() => {
@@ -44,9 +49,11 @@ function App(): JSX.Element {
             <p
               key={n.id}
               onClick={() => setSelectedNote(n.id)}
-              className="hover:bg-zinc-500/20 p-2 rounded cursor-pointer"
+              className={cn('hover:bg-zinc-500/20 p-2 rounded cursor-pointer', {
+                'bg-zinc-500/20': selectedNote === n.id,
+              })}
             >
-              {n.title}
+              ({n.id}) - {n.title}
             </p>
           ))
         ) : (
