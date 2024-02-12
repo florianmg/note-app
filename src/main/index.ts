@@ -3,6 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { initDatabase } from '@/lib/db'
+import { createNote, getNotes } from './lib/notes'
 
 function createWindow(): void {
   // Create the browser window.
@@ -18,8 +19,8 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
-    }
+      sandbox: false,
+    },
   })
 
   mainWindow.on('ready-to-show', () => {
@@ -58,7 +59,9 @@ app.whenReady().then(() => {
   initDatabase()
 
   // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
+  // ipcMain.on('ping', () => console.log('pong'))
+  ipcMain.handle('createNote', (event, title, content) => createNote(title, content))
+  ipcMain.handle('getNotes', () => getNotes())
 
   createWindow()
 

@@ -1,10 +1,10 @@
 import { app } from 'electron'
 import path from 'path'
+const sqlite3 = require('sqlite3').verbose()
 
 const dbName = 'noteapp.db'
-const dbPath = path.join(app.getPath('userData'), dbName)
-
-const sqlite3 = require('sqlite3').verbose()
+const dbRoot = import.meta.env.DEV ? '' : app.getPath('userData')
+const dbPath = path.join(dbRoot, dbName)
 const db = new sqlite3.Database(dbPath)
 
 const initDatabase = (): void => {
