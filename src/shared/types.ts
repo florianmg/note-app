@@ -4,5 +4,5 @@ export type Note = {
   content: string
 }
 
-export type GetNotes = Promise<Note[] | null>
-export type CreateNote = Promise<Note>
+export type GetNotes = () => Promise<Note[] | null>
+export type CreateNote = (params: { title: string; content: string }) => Promise<Note | null>

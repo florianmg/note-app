@@ -60,7 +60,7 @@ app.whenReady().then(() => {
 
   // IPC test
   // ipcMain.on('ping', () => console.log('pong'))
-  ipcMain.handle('createNote', (event, title, content) => createNote(title, content))
+  ipcMain.handle('createNote', (_event, params) => createNote(params))
   ipcMain.handle('getNotes', () => getNotes())
 
   createWindow()

@@ -6,8 +6,8 @@ declare global {
     electron: ElectronAPI
     api: unknown
     context: {
-      createNote: (...args: unknown[]) => CreateNote
-      getNotes: () => GetNotes
+      createNote: CreateNote
+      getNotes: GetNotes
     }
   }
 }

@@ -13,6 +13,7 @@ function App(): JSX.Element {
   const addNote = useNotesStore((state) => state.addNote)
 
   const currentNote = useMemo(() => {
+    if (notes.length === 0) return null
     const note = notes.find((n) => n.id === selectedNote)
     return note
   }, [selectedNote, notes])
@@ -25,21 +26,24 @@ function App(): JSX.Element {
   const onFormSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault()
     if (title.length === 0) return
-    const insertedNote = await window.context.createNote?.(title, content)
-    addNote(insertedNote)
-    setSelectedNote(insertedNote.id)
-    setContent('')
-    setTitle('')
+    const insertedNote = await window.context.createNote?.({ title, content })
+    if (insertedNote) {
+      console.log('insertedNode', insertedNote)
+      addNote(insertedNote)
+      setSelectedNote(insertedNote.id)
+      setContent('')
+      setTitle('')
+    }
   }
 
   useEffect(() => {
-    window.context
-      .getNotes()
-      .then((n) => {
-        if (n) setNotes(n)
-      })
-      .catch((e) => console.log(e))
-  }, [window.context])
+    const fetchData = async (): Promise<void> => {
+      const allNotes = await window.context.getNotes()
+      setNotes(allNotes || [])
+    }
+
+    fetchData()
+  }, [])
 
   return (
     <RootLayout>
